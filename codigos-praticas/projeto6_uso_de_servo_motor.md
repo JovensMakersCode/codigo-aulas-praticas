@@ -1,6 +1,48 @@
-# 📘 Documentação do Código – Controle de Servo Motor com LEDs
+# 📘 Código – Controle de Servo Motor com LEDs
 
 ---
+```cpp
+#include <Servo.h>
+
+#define meuServo 7
+#define led_verm 6
+#define led_verd 5
+
+Servo servo;
+
+int posicao = 0;
+bool indoDireita = true;
+
+void setup() {
+  pinMode(led_verm, OUTPUT);
+  pinMode(led_verd, OUTPUT);
+
+  servo.attach(meuServo);
+  servo.write(0); // começa fechado
+}
+
+void loop() {
+  if (indoDireita) {
+    // Move servo de 0 até 180 graus
+    for (posicao = 0; posicao <= 180; posicao++) {
+      servo.write(posicao);
+      digitalWrite(led_verd, HIGH);
+      digitalWrite(led_verm, LOW);
+      delay(15); // velocidade do movimento
+    }
+    indoDireita = false;
+  } else {
+    // Move servo de 180 até 0 graus
+    for (posicao = 180; posicao >= 0; posicao--) {
+      servo.write(posicao);
+      digitalWrite(led_verd, LOW);
+      digitalWrite(led_verm, HIGH);
+      delay(15);
+    }
+    indoDireita = true;
+  }
+}
+```
 
 ## 🔹 O que o código faz?
 
@@ -130,3 +172,4 @@ void loop() {
 * O LED verde indica movimento de abertura.
 * O LED vermelho indica movimento de fechamento.
 * A biblioteca `Servo.h` simplifica o controle do motor, evitando código complexo de geração de sinais PWM.
+
